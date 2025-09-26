@@ -17,13 +17,33 @@
     align-items: center;     /* จัดกลางแนวตั้ง */
   }
 
+  /* ฟอนต์น่ารัก */
+.font-cute {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* ฟอนต์ไทยสวยงาม */
+.font-thai {
+  font-family: 'Kanit', sans-serif;
+}
+
+/* ฟอนต์เรียบๆ */
+.font-simple {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ฟอนต์หรูๆ */
+.font-fancy {
+  font-family: 'Times New Roman', serif;
+}
+
   .top-image {
   position: absolute;   /* ให้อิสระจาก layout ปกติ */
   top: -10px;            /* ขยับลงมาจากด้านบน 30px */
   left: 20px;           /* ขยับมาจากซ้าย 50px */
   width: 160px;          /* ปรับขนาดความกว้าง */
   height: auto;         /* ให้ปรับสัดส่วนอัตโนมัติ */
-  transition: transform 0.3s ease; background-color 0.2s ease; /* เผื่ออยากทำเอฟเฟกต์ */
+  transition: transform 0.3s ease, background-color 0.2s ease; /* เผื่ออยากทำเอฟเฟกต์ */
 }
 
 .top-image:hover {
@@ -173,7 +193,7 @@
     margin-bottom: 15px;
     color: #ff69b4;
     font-weight: bold;
-    font-family: 'Kanit', sans-serif;  /* ฟอนต์ใหม่ */
+    font-family: 'Kanit', sans-serif;
   }
 
   #errorBox button {
@@ -227,15 +247,15 @@ button:active {
   <div class="center-container" id="loginContainer">
   <!-- กล่องล็อกอิน -->
   <div class="login-box" id="loginForm">
-    <h2>Hello everyone who entered. 💖</h2>
+    <h2 class="font-cute">Hello everyone who entered. 💖</h2>
     <div class="input-box">
   <input type="text" id="username" placeholder=" " required>
-  <label for="username">Username na hubb</label>
+  <label class="font-simple" for="username">Username na hubb</label>
 </div>
 
 <div class="input-box">
   <input type="password" id="password" placeholder=" " required>
-  <label for="password">Password (dd,mm)</label>
+  <label class="font-simple" for="password">Password (dd,mm)</label>
 </div>
 
     <button type="button" onclick="login()">Login</button>
@@ -253,11 +273,11 @@ button:active {
 </div>
 
   <!-- กล่องข้อความมุมขวาล่าง -->
-  <div id="bottomRightBox">ดีฮ่ะ สำหรับคนที่เข้ามาลองดูก็นี่ฮับ<br> Username **korawit** Password **0301**<br>ถ้าใส่ของตัวเองก็น่าจะไม่ได้น่ะ💖<br>เอ่อ..นี่คือ Demo น่ะฮับ อาจจะมี Buck อยู่บ้างน้าา</div>
+  <div class="font-fancy" id="bottomRightBox">ดีฮ่ะ สำหรับคนที่เข้ามาลองดูก็นี่ฮับ<br> Username **korawit** Password **0301**<br>ถ้าใส่ของตัวเองก็น่าจะไม่ได้น่ะ💖<br>เอ่อ..นี่คือ Demo น่ะฮับ อาจจะมี Buck อยู่บ้างน้าา</div>
 
   <!-- กล่องแจ้งเตือน -->
   <div id="errorBox" class="hidden">
-    <p>❌ Username หรือ Password ไม่ถูกต้อง น้าาา</p>
+    <p class="font-simple">❌ Username หรือ Password ไม่ถูกต้อง น้าาา</p>
     <button onclick="closeError()">ตกลง</button>
   </div>
   <script>
@@ -369,4 +389,3 @@ document.getElementById('backToLogin').addEventListener('click', function() {
  </script>
 </body>
 </html>
-
