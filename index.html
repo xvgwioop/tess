@@ -233,14 +233,13 @@ button:active {
 }
 
 .outside-img {
-  max-width: 300px;   /* กำหนดความกว้างสูงสุดของรูป */
-  height: auto;       /* ให้ความสูงปรับตามสัดส่วน */
+  width: 100vw;       /* ให้กว้างเท่าหน้าจอ */
+  height: 100vh;      /* ให้สูงเท่าหน้าจอ */
+  object-fit: cover;  /* ครอบเต็มจอโดยไม่เสียสัดส่วน */
+  margin: 0;          /* ลบระยะห่างออก */
   border-radius: 0;   /* ไม่มีมุมโค้ง */
   box-shadow: none;   /* ไม่มีเงา */
-  margin-top: 20px;   /* เว้นระยะบนของรูป */
-  display: block;     /* ทำให้รูปเป็น block เพื่อจัด layout ง่าย */
-  object-fit: cover;
-  background-size: cover;
+  display: block; 
 }
 
 </style>
