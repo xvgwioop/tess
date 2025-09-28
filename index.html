@@ -7,30 +7,28 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
+
+    .top-image {
+  position: absolute;   /* ให้อิสระจาก layout ปกติ */
+  top: -10px;            /* ขยับลงมาจากด้านบน 30px */
+  left: 20px;           /* ขยับมาจากซ้าย 50px */
+  width: 160px;          /* ปรับขนาดความกว้าง */
+  height: auto;         /* ให้ปรับสัดส่วนอัตโนมัติ */
+  transition: transform 0.3s ease; /* เผื่ออยากทำเอฟเฟกต์ */
+}
+
+.top-image:hover {
+  transform: scale(1.1) rotate(5deg); /* ขยาย + เอียงเวลาเอาเมาส์ไปชี้ */
+}
+
     font-family: 'Comic Sans MS', cursive, sans-serif;
-    /* Removed duplicate background from body to avoid conflict with overlay */
+    background: url('https://i.postimg.cc/3wjsKkCP/20250920-010358.jpg') no-repeat center center fixed;
+    background-size: cover;
     height: 100vh;
     display: flex;
     justify-content: center; /* จัดกลางแนวนอน */
     align-items: center;     /* จัดกลางแนวตั้ง */
   }
-
-  .top-image {
-  position: absolute;   /* ให้อิสระจาก layout ปกติ */
-  top: 1%;            /* ขยับลงมาจากด้านบน 30px */
-  left: 1%;           /* ขยับมาจากซ้าย 50px */
-  width: 16%;          /* ปรับขนาดความกว้าง */
-  height: auto;         /* ให้ปรับสัดส่วนอัตโนมัติ */
-  transition: transform 0.3s ease, background-color 0.2s ease; /* เผื่ออยากทำเอฟเฟกต์ */
-}
-
-.top-image:hover {
-  transform: scale(1.1) /* ขยาย + เอียงเวลาเอาเมาส์ไปชี้ */
-}
-
-.top-image:active {
-  transform: scale(0.9);
-}
 
   .center-container {
     display: flex;
@@ -38,15 +36,15 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 540px;
+    max-width: 500px;
   }
 
   .login-box {
     background: rgba(255, 240, 245, 0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    padding: 40px;
-    border-radius: 45px;
+    padding: 30px;
+    border-radius: 20px;
     text-align: center;
     width: 100%;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -56,46 +54,18 @@
   h2 {
     color: #ff69b4;
     margin-bottom: 20px;
-    font-size: 26px;   /* ปรับขนาดตัวอักษร */
-  line-height: 2.0;  /* ปรับความสูงบรรทัด */
   }
 
-  .input-box {
-  position: relative;
-  width: 100%;
-  margin: 15px 0;
-  min-height: 70px; /* กล่องสูงขึ้น */
-}
-
-.input-box input {
-  padding: 17px;
-  width: 100%;
-  border: 2px solid #ffb6c1;
-  border-radius: 10px;
-  font-size: 16px;
-  outline: none;
-  background: transparent;
-}
-
-.input-box label {
-  position: absolute;
-  top: 40%;
-  left: 15px;
-  transform: translateY(-50%);
-  color: #999;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  background: rgba(255,240,245,0.6);
-  padding: 0 5px;
-  border-radius: 5px;
-}
-
-.input-box input:focus + label,
-.input-box input:not(:placeholder-shown) + label {
-  top: -8px;
-  font-size: 12px;
-  color: #ff69b4;
-}
+  input[type="text"],
+  input[type="password"] {
+    padding: 17px;
+    margin: 15px 0;
+    width: 100%;
+    border: 2px solid #ffb6c1;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+  }
 
   button {
     padding: 15px 25px;
@@ -171,7 +141,6 @@
     margin-bottom: 15px;
     color: #ff69b4;
     font-weight: bold;
-    font-family: 'Kanit', sans-serif;  /* ฟอนต์ใหม่ */
   }
 
   #errorBox button {
@@ -196,6 +165,14 @@
     z-index: 10000;
 }
 
+.popp-imgg {
+  position: absolute;   /* ให้อิสระจาก layout ปกติ */
+  top: 17px;            /* ขยับลงมาจากด้านบน 30px */
+  left: 790px;           /* ขยับมาจากซ้าย 50px */
+  width: 100px;          /* ปรับขนาดความกว้าง */
+  height: auto;         /* ให้ปรับสัดส่วนอัตโนมัติ */
+}
+
 button {
     padding: 15px 25px;
     background-color: #ff69b4;
@@ -203,7 +180,7 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 16px;
     transition: transform 0.1s ease, background-color 0.2s ease; /* <-- เพิ่ม transition */
 }
 
@@ -218,39 +195,16 @@ button:active {
     pointer-events: none;
 }
 
-#backgroundOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('https://i.postimg.cc/3wjsKkCP/20250920-010358.jpg') no-repeat center center fixed; /* Added 'fixed' for locking */
-  background-size: cover;  /* สามารถเปลี่ยนได้เป็น contain, auto, etc. */
-  z-index: -1;  /* อยู่หลังทุกอย่าง */
-  transition: background 0.5s ease, background-size 0.3s ease;
-  /* Ensures it stays locked on resize/scroll */
-}
-
-
 </style>
  </head>
  <body id="pageBody">
-  <div id="backgroundOverlay"></div> <!-- พื้นหลังใหม่ที่เราจะปรับขนาดได้ -->
-    <img src="https://i.postimg.cc/5yBD8bhw/1758548455711.png"width="10%" height="19%" class="top-image" id="backToLogin">
+    <img src="https://i.postimg.cc/5yk6R14j/1758317945441.png"width="10%" height="19%" class="top-image" id="backToLogin">
   <div class="center-container" id="loginContainer">
   <!-- กล่องล็อกอิน -->
   <div class="login-box" id="loginForm">
     <h2>Hello everyone who entered. 💖</h2>
-    <div class="input-box">
-  <input type="text" id="username" placeholder=" " required>
-  <label for="username">Username na hubb</label>
-</div>
-
-<div class="input-box">
-  <input type="password" id="password" placeholder=" " required>
-  <label for="password">Password (dd,mm)</label>
-</div>
-
+    <input type="text" id="username" placeholder="Username na hubb">
+    <input type="password" id="password" placeholder="Password (dd,mm)">
     <button type="button" onclick="login()">Login</button>
   </div>
 </div>
@@ -262,15 +216,16 @@ button:active {
     <div class="image-container">
       <img src="https://i.postimg.cc/FHhLwWpG/how-You-20250914-233456-0000.png" alt="My Image">
     </div>
+    <img src="https://i.postimg.cc/Dfqhp7zN/1758318217310.png"width="20%" height="20%" class="popp-imgg">
   </div>
 </div>
 
   <!-- กล่องข้อความมุมขวาล่าง -->
-  <div id="bottomRightBox">ดีฮ่ะ สำหรับคนที่เข้ามาลองดูก็นี่ฮับ<br> Username **korawit** Password **0301**<br>ถ้าใส่ของตัวเองก็น่าจะไม่ได้น่ะ💖<br>เอ่อ..นี่คือ Demo น่ะฮับ อาจจะมี Buck อยู่บ้างน้าา</div>
+  <div id="bottomRightBox">ดีฮ่ะ สำหรับคนที่เข้ามาลองดูก็นี่ฮับ<br> Username **korawit** Password **0301**<br> ถ้าใส่ของตัวเองก็น่าจะไม่ได้น่ะ💖</div>
 
   <!-- กล่องแจ้งเตือน -->
   <div id="errorBox" class="hidden">
-    <p>❌ Username หรือ Password ไม่ถูกต้อง น้าาา</p>
+    <p>❌ Username หรือ Password ไม่ถูกต้อง</p>
     <button onclick="closeError()">ตกลง</button>
   </div>
   <script>
@@ -286,8 +241,8 @@ button:active {
     {
       username: 'kantamxs',
       password: '2606',
-      background: 'https://i.postimg.cc/6Q1T2hDJ/pxfuel-26.jpg',  // ใส่ลิงก์ภาพพื้นหลังของ kantamxs
-      image: 'https://i.postimg.cc/1tRJJw5X/20250915-031854-0000.png' ,
+      background: 'https://i.postimg.cc/7Pjzx1M8/1-Clearnote.jpg',  // ใส่ลิงก์ภาพพื้นหลังของ kantamxs
+      image: 'https://i.postimg.cc/1tRJJw5X/20250915-031854-0000.png',
       greeting: 'Hi na hub JuneNae~ Kantamxs! 🌸'
     }
     // เพิ่มผู้ใช้เพิ่มเติมได้ในรูปแบบเดียวกัน
@@ -304,8 +259,7 @@ button:active {
 
   if (user) {
     const loginContainer = document.getElementById('loginContainer');
-    const bg = document.getElementById('backgroundOverlay');
-
+   
     loginContainer.style.transition = "all 0.8s ease";
     loginContainer.style.transform = "translateX(-150%)";
     loginContainer.style.opacity = "0";
@@ -319,11 +273,11 @@ button:active {
 
       document.getElementById('bottomRightBox').classList.add('hidden-bottom');
 
-      // ✅ ใช้ภาพพื้นหลังของ user นั้น ๆ with fixed attachment
-      bg.style.backgroundImage = `url('${user.background}')`;
-      bg.style.backgroundSize = "cover";
-      bg.style.backgroundPosition = "center";
-      bg.style.backgroundAttachment = "fixed";  // Added to lock the background
+      const body = document.getElementById('pageBody');
+      body.style.backgroundImage = `url('${user.background}')`;
+      body.style.backgroundRepeat = "no-repeat";
+      body.style.backgroundSize = "cover";
+      body.style.backgroundPosition = "center";
 
       const imageBox = document.getElementById('imageBox');
       imageBox.querySelector('h2').textContent = user.greeting;
@@ -370,12 +324,11 @@ document.getElementById('backToLogin').addEventListener('click', function() {
     loginContainer.style.transform = 'translateX(0)';
   }, 300);
 
-  // คืนค่า background เดิม with fixed attachment
-  const bg = document.getElementById('backgroundOverlay');
-  bg.style.backgroundImage = "url('https://i.postimg.cc/3wjsKkCP/20250920-010358.jpg')";
-  bg.style.backgroundSize = "cover";
-  bg.style.backgroundPosition = "center";
-  bg.style.backgroundAttachment = "fixed";  // Added to lock the background
+  // คืนค่า background เดิม
+  const body = document.getElementById('pageBody');
+  body.style.backgroundImage = "url('https://i.postimg.cc/3wjsKkCP/20250920-010358.jpg')";
+  body.style.backgroundSize = "cover";
+  body.style.backgroundPosition = "center";
 
   // คืนกล่องข้อความมุมล่างขวา
   document.getElementById('bottomRightBox').classList.remove('hidden-bottom');
