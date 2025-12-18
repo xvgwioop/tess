@@ -233,13 +233,13 @@ button:active {
 }
 
 .outside-img {
-  width: 100vw;       /* ให้กว้างเท่าหน้าจอ */
-  height: 100vh;      /* ให้สูงเท่าหน้าจอ */
-  object-fit: cover;  /* ครอบเต็มจอโดยไม่เสียสัดส่วน */
-  margin: 0;          /* ลบระยะห่างออก */
+  max-width: 300px;   /* กำหนดความกว้างสูงสุดของรูป */
+  height: auto;       /* ให้ความสูงปรับตามสัดส่วน */
   border-radius: 0;   /* ไม่มีมุมโค้ง */
   box-shadow: none;   /* ไม่มีเงา */
-  display: block; 
+  margin-top: 20px;   /* เว้นระยะบนของรูป */
+  display: block;     /* ทำให้รูปเป็น block เพื่อจัด layout ง่าย */
+  object-fit: cover;
 }
 
 </style>
@@ -270,8 +270,8 @@ button:active {
   <div class="login-box" id="imageBox">
     <h2>Hi na hub you!! 🌸</h2>
     <div class="image-container">
-      <img src="https://i.postimg.cc/FHhLwWpG/how-You-20250914-233456-0000.png" alt="My Image">
-    </div>
+  <img id="displayImage" src="" alt="My Image">
+</div>
   </div>
 
   <!-- เพิ่มรูปสำหรับ korawit -->
@@ -323,7 +323,7 @@ button:active {
 
     loginContainer.style.transition = "all 0.8s ease";
     loginContainer.style.transform = "translateX(-150%)";
-    loginContainer.style.opacity = "0";
+    loginContainer.opacity = "0";
 
     setTimeout(() => {
       loginContainer.style.display = 'none';
@@ -336,23 +336,28 @@ button:active {
 
       const imageBox = document.getElementById('imageBox');
       imageBox.querySelector('h2').textContent = user.greeting;
+      
+      // --- จุดที่แก้ไข: เปลี่ยนรูปภาพในกล่องให้ตรงกับผู้ใช้ที่ Login ---
+      document.getElementById('displayImage').src = user.image;
 
-       // ---- แสดงเฉพาะ img ของผู้ใช้ ----
-       document.querySelectorAll('.outside-img').forEach(img => img.style.display = 'none'); // ซ่อนรูปทั้งหมด
+      // ---- แสดงเฉพาะพื้นหลังของผู้ใช้ ----
+      document.querySelectorAll('.outside-img').forEach(img => img.style.display = 'none'); 
 
-       // แสดงเฉพาะ img ของบัญชีที่ล็อกอิน
-       const userImg = document.getElementById('img-' + user.username);
-       if (userImg) {
-           bg.style.backgroundImage = `url('${userImg.src}')`;
-           bg.style.backgroundSize = "cover";
-           bg.style.backgroundPosition = "center";
+      const userImg = document.getElementById('img-' + user.username);
+      if (userImg) {
+          bg.style.backgroundImage = `url('${userImg.src}')`;
+          bg.style.backgroundSize = "cover";
+          bg.style.backgroundPosition = "center";
+      } else {
+          // ถ้าไม่มีรูป outside-img ให้ใช้รูปหลักของผู้ใช้เป็นพื้นหลังแทนได้ครับ
+          bg.style.backgroundImage = `url('${user.image}')`;
       }
     }, 800);
 
   } else {
-  document.getElementById('errorBox').classList.remove('hidden');
-}
+    document.getElementById('errorBox').classList.remove('hidden');
   }
+}
 
     function closeError() {
     document.getElementById('errorBox').classList.add('hidden');
@@ -402,3 +407,4 @@ document.getElementById('backToLogin').addEventListener('click', function() {
  </script>
 </body>
 </html>
+
