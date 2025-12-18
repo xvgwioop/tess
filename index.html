@@ -323,7 +323,7 @@ button:active {
 
     loginContainer.style.transition = "all 0.8s ease";
     loginContainer.style.transform = "translateX(-150%)";
-    loginContainer.opacity = "0";
+    loginContainer.style.opacity = "0"; // แก้ไขจุดนี้: เติม .style
 
     setTimeout(() => {
       loginContainer.style.display = 'none';
@@ -337,8 +337,11 @@ button:active {
       const imageBox = document.getElementById('imageBox');
       imageBox.querySelector('h2').textContent = user.greeting;
       
-      // --- จุดที่แก้ไข: เปลี่ยนรูปภาพในกล่องให้ตรงกับผู้ใช้ที่ Login ---
-      document.getElementById('displayImage').src = user.image;
+      // เปลี่ยนรูปภาพในกล่องให้ตรงกับผู้ใช้
+      const displayImg = document.getElementById('displayImage');
+      if (displayImg) {
+        displayImg.src = user.image;
+      }
 
       // ---- แสดงเฉพาะพื้นหลังของผู้ใช้ ----
       document.querySelectorAll('.outside-img').forEach(img => img.style.display = 'none'); 
@@ -349,7 +352,6 @@ button:active {
           bg.style.backgroundSize = "cover";
           bg.style.backgroundPosition = "center";
       } else {
-          // ถ้าไม่มีรูป outside-img ให้ใช้รูปหลักของผู้ใช้เป็นพื้นหลังแทนได้ครับ
           bg.style.backgroundImage = `url('${user.image}')`;
       }
     }, 800);
