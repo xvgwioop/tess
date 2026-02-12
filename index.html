@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korawit | Minimal Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Korawit | Admin Dashboard Plus</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             font-family: 'Quicksand', 'Kanit', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -30,233 +31,240 @@
             background: url('https://i.postimg.cc/3wjsKkCP/20250920-010358.jpg') no-repeat center center;
             background-size: cover;
             z-index: -1;
+            filter: brightness(0.95);
         }
 
-        /* --- LOGO SYSTEM --- */
-        .main-logo {
+        #floating-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floater {
             position: absolute;
-            width: 260px; 
-            height: auto;
-            z-index: 1000;
-            transition: all 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+            bottom: -50px;
+            animation: floatUp linear forwards;
+            opacity: 0;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-110vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- MENU & SIDEBAR --- */
+        #menuIcon {
+            position: fixed;
+            top: 25px; right: 25px;
+            z-index: 2000;
             cursor: pointer;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 12px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: 0.3s;
         }
+        #menuIcon:hover { transform: scale(1.1); background: #fff; }
 
-        .logo-home {
-            top: 3% !important; 
-            left: 8%;
-            transform: translate(0, 0);
-        }
+        .bar { width: 22px; height: 3px; background: #8e8279; border-radius: 2px; }
 
-        .logo-mini {
-            top: 20px !important;
-            left: 20px !important;
-            width: 100px !important;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.05));
+        #adminSidebar {
+            position: fixed;
+            top: 0; right: -320px; width: 320px; height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1999;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.08);
+            padding: 100px 40px;
         }
+        #adminSidebar.active { right: 0; }
+
+        .admin-link {
+            color: #8e8279; text-decoration: none; font-weight: 600;
+            font-size: 1.2rem; display: block; margin-bottom: 30px;
+            cursor: pointer; transition: 0.3s; text-align: right;
+        }
+        .admin-link:hover { color: #ffb6c1; transform: translateX(-5px); }
+
+        /* --- LOGO --- */
+        .main-logo {
+            position: fixed;
+            z-index: 1000;
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+        }
+        .logo-home { top: 40px; left: 60px; width: 220px; }
+        .logo-mini { top: 20px !important; left: 20px !important; width: 70px !important; }
 
         /* --- HERO SECTION --- */
         .hero-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1250px;
-            padding: 0 6%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            width: 100%; 
+            max-width: 1200px; 
+            /* แก้ไขตรงนี้: เพิ่ม Padding ด้านบนเยอะๆ ให้ดันลงมาหลบโลโก้ใน PC */
+            padding: 150px 40px 40px 40px; 
             z-index: 10;
-            transition: all 0.8s ease;
+            gap: 60px;
+            transition: 0.5s ease;
         }
 
-        .hero-left {
-            flex: 1.1;
-            text-align: left;
-            padding-top: 120px;
+        .hero-left { flex: 1; text-align: left; }
+        .hero-left h1 { 
+            color: #8e8279; 
+            font-size: clamp(2rem, 4vw, 3.8rem); 
+            line-height: 1.1; 
+            margin-bottom: 25px; 
+        }
+        .hero-left p { 
+            color: #a3968e; font-size: 1.1rem; 
+            margin-bottom: 40px; max-width: 500px; line-height: 1.8; 
         }
 
-        .hero-left h1 {
-            color: #8e8279;
-            font-size: 2.5rem;
-            font-weight: 600;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 5px rgba(255,255,255,0.8);
-        }
-
-        .hero-left p {
-            color: #a3968e;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            max-width: 450px;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        .hero-right {
-            flex: 0.7;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
+        .hero-right { flex: 0.8; display: flex; justify(content): center; }
 
         .hero-image-card {
-            width: 420px;
-            height: 550px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
-            border: 12px solid rgba(255, 255, 255, 0.7);
-            border-radius: 60px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
-            transform: rotate(3deg);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .hero-image-card img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-width: 380px;
+            aspect-ratio: 3/4;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px); 
+            border: 12px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50px; 
+            overflow: hidden; 
+            transform: rotate(3deg);
+            box-shadow: 0 35px 70px rgba(0,0,0,0.12);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .hero-image-card:hover { transform: rotate(0deg) scale(1.03); }
+        .hero-image-card img { width: 100%; height: 100%; object-fit: cover; }
 
         /* --- BUTTONS --- */
-        .visit-btn, .login-btn {
-            background: #e8d5cc;
-            color: #8e8279;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .btn-group { display: flex; gap: 20px; }
+        .visit-btn, .contact-btn, .login-btn {
+            background: #e8d5cc; color: #8e8279; border: none;
+            cursor: pointer; font-weight: 600; transition: 0.3s;
+            padding: 16px 35px; border-radius: 50px; font-size: 1rem;
+            white-space: nowrap; box-shadow: 0 4px 15px rgba(232,213,204,0.3);
         }
+        .contact-btn { background: rgba(255,255,255,0.9); border: 2px solid #e8d5cc; }
+        .visit-btn:hover, .login-btn:hover { background: #e0c8bc; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(232,213,204,0.5); }
+        .contact-btn:hover { background: #fff; transform: translateY(-3px); }
 
-        .visit-btn {
-            padding: 18px 55px;
-            border-radius: 50px;
-            font-size: 1.15rem;
-            box-shadow: 0 10px 25px rgba(232, 213, 204, 0.5);
-        }
-
-        .login-btn {
-            width: 100%; 
-            padding: 16px; 
-            border-radius: 18px; 
-            font-size: 1.15rem;
-        }
-
-        /* Hover & Active Effects for all buttons */
-        .visit-btn:hover, .login-btn:hover {
-            background: #f2e4dc;
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 15px 30px rgba(232, 213, 204, 0.6);
-        }
-
-        .visit-btn:active, .login-btn:active {
-            transform: translateY(1px) scale(0.97);
-        }
-
-        /* --- RESPONSIVE SETTINGS --- */
-        @media (max-width: 1024px) {
-            body {
-                overflow-y: auto;
-                align-items: flex-start;
-                padding: 100px 20px 40px 20px;
-            }
-
-            .hero-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 40px;
-            }
-
-            .hero-left {
-                padding-top: 50px;
-                order: 1;
-            }
-
-            .hero-left h1 { font-size: 1.8rem; }
-            .hero-left p { font-size: 0.95rem; margin: 0 auto 30px auto; }
-
-            .hero-right { order: 2; justify-content: center; }
-
-            .hero-image-card {
-                width: 280px;
-                height: 380px;
-                border-radius: 40px;
-                border-width: 8px;
-            }
-
-            .logo-home {
-                width: 160px; 
-                left: 50% !important;
-                transform: translateX(-50%) !important;
-                top: 2% !important;
-            }
-        }
-
-        /* --- LOGIN & CONTENT SYSTEM --- */
+        /* --- CONTAINERS --- */
         .center-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 460px;
-            padding: 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            display: none; flex-direction: column; align-items: center; justify-content: center; 
+            width: 95%; max-width: 450px; padding: 20px; opacity: 0; z-index: 100;
         }
 
         .login-box {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            padding: 50px 40px;
-            border-radius: 45px;
-            text-align: center;
-            width: 100%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.06);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(25px);
+            padding: 40px; border-radius: 45px; width: 100%;
+            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
         }
 
-        .input-box { position: relative; width: 100%; margin-bottom: 22px; }
-        .input-box input {
-            width: 100%; padding: 16px 22px; border: 2px solid #f2f2f2;
-            border-radius: 18px; font-size: 1rem; outline: none;
-            background: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; color: #7a6d65;
-        }
-        .input-box input:focus { border-color: #ffb6c1; background: white; }
-
-        .input-box label {
-            position: absolute; top: 50%; left: 22px; transform: translateY(-50%);
-            color: #a3968e; pointer-events: none; transition: all 0.3s ease;
-        }
-        .input-box input:focus + label, .input-box input:not(:placeholder-shown) + label {
-            top: -10px; left: 15px; font-size: 0.8rem; color: #ff85c1; background: white; padding: 0 8px;
+        .input-box { margin-bottom: 15px; }
+        .input-box input, .input-box textarea {
+            width: 100%; padding: 15px; border-radius: 20px; border: 2px solid #f0f0f0;
+            outline: none; background: #fff; font-size: 16px; color: #7a6d65; transition: 0.3s;
         }
 
-        #imageContainer.show { display: flex; opacity: 1; transform: translateY(0); }
-        .image-container img { width: 100%; border-radius: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-
-        #errorBox {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; padding: 35px; border-radius: 35px;
-            box-shadow: 0 35px 70px rgba(0,0,0,0.15); text-align: center; z-index: 9999; width: 310px;
-        }
-        #errorBox.hidden { display: none; }
-
+        /* --- DEMO BOX (NEW) --- */
         #bottomRightBox {
-            position: fixed; bottom: 25px; right: 25px; background: rgba(232, 213, 204, 0.85);
-            color: #8e8279; padding: 18px 24px; border-radius: 22px; font-size: 0.88rem;
-            backdrop-filter: blur(8px); z-index: 1000; display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px dashed #ffb6c1;
+            font-size: 0.85rem;
+            color: #8e8279;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            z-index: 1001;
+            pointer-events: auto;
+            display: none; /* เริ่มต้นซ่อนไว้ */
+            animation: fadeIn 0.5s ease forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* POPUPS */
+        #successPopup, #errorPopup {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            background: #fff; padding: 35px; border-radius: 35px; width: 90%; max-width: 350px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2); z-index: 9999; text-align: center;
+            opacity: 0; pointer-events: none; transition: 0.4s;
+        }
+        #errorPopup { border: 2px solid #ffcfcf; }
+        #successPopup { border: 2px solid #ffdae0; }
+        .show { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; pointer-events: auto !important; }
+        .shake { animation: shake 0.5s ease; }
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%); }
+            20%, 60% { transform: translate(-53%, -50%); }
+            40%, 80% { transform: translate(-47%, -50%); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .hero-container { flex-direction: column-reverse; text-align: center; padding-top: 120px; gap: 30px; }
+            .logo-home { left: 50%; transform: translateX(-50%); width: 180px; top: 30px; }
+            
+            /* อันนี้ของมือถือที่แก้ให้เมื่อกี้ครับ */
+            .hero-left { margin-top: 80px; }
+
+            #bottomRightBox { bottom: 10px; right: 10px; font-size: 0.75rem; padding: 10px; }
         }
     </style>
 </head>
 <body>
 
     <div id="backgroundOverlay"></div>
+    <div id="floating-container"></div>
+
+    <div id="bottomRightBox">
+        <b>Demo Account:</b><br>
+        User: korawit / Pass: 0301<br>
+        ลองใส่ดูด้ายน้าาา👆🏻
+    </div>
+
+    <div id="successPopup">
+        <div style="font-size: 50px;">🌸</div>
+        <h2 style="color: #8e8279; margin: 15px 0 10px;">Login Success!</h2>
+        <p style="color: #a3968e;">ยินดีต้อนรับเข้าสู่ระบบนะฮับ</p>
+    </div>
+
+    <div id="errorPopup">
+        <div style="font-size: 50px;"></div>
+        <h2 style="color: #d17a7a; margin: 15px 0 10px;">รหัสผิดน้าาลองใหม่ๆๆ</h2>
+        <p style="color: #a3968e;">Username หรือ Password ไม่ถูกน้าา</p>
+    </div>
+
+    <div id="menuIcon" onclick="toggleSidebar()">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+
+    <div id="adminSidebar">
+        <a class="admin-link" onclick="showAdminLogin()">Admin Panel 🔐</a>
+        <a class="admin-link" onclick="goHome()">Back to Home 🏠</a>
+    </div>
     
-    <img src="https://i.postimg.cc/5yBD8bhw/1758548455711.png" 
-         class="main-logo logo-home" 
-         id="movingLogo"> 
+    <img src="https://i.postimg.cc/5yBD8bhw/1758548455711.png" class="main-logo logo-home" id="movingLogo" onclick="goHome()"> 
 
     <div class="hero-container" id="heroSection">
         <div class="hero-left">
@@ -265,120 +273,233 @@
                อันนี้คงจะว่างแหละ ทำโดยโปรแกรม Visual Studio Code ฮับ และ เว็บที่ใช้ Render คือนี่น้า "Netlify"<br>
                และใช้ AI โดย GPT และ Gemini น่ะฮับ
             </p>
-            <button class="visit-btn" onclick="startVisit()">เยี่ยมชม</button>
+            <div class="btn-group">
+                <button class="visit-btn" onclick="startVisit()">เยี่ยมชม</button>
+                <button class="contact-btn" onclick="showContactForm()">ติดต่อสอบถาม</button>
+            </div>
         </div>
-        
         <div class="hero-right">
             <div class="hero-image-card">
-                <img src="https://i.postimg.cc/Gp7CMFhL/MTXX-ai-image-restoration-batch-1736001597767.jpg" alt="Profile Image">
+                <img src="https://i.postimg.cc/Gp7CMFhL/MTXX-ai-image-restoration-batch-1736001597767.jpg" alt="Profile">
             </div>
         </div>
     </div>
 
     <div class="center-container" id="loginContainer">
-        <div class="login-box" id="loginForm">
-            <h2 style="color: #8e8279; margin-bottom: 28px;">Welcome Back 🌸</h2>
-            <div class="input-box">
-                <input type="text" id="username" placeholder=" " required>
-                <label>Username na hubb</label>
-            </div>
-            <div class="input-box">
-                <input type="password" id="password" placeholder=" " required>
-                <label>Password (dd,mm)</label>
-            </div>
-            <button class="login-btn" onclick="login()">Login</button>
+        <div class="login-box">
+            <h2 style="color: #8e8279; margin-bottom: 25px;">Welcome Back 🌸</h2>
+            <div class="input-box"><input type="text" id="username" placeholder="Username"></div>
+            <div class="input-box"><input type="password" id="password" placeholder="Password (dd,mm)" onkeyup="handleEnter(event, 'visitor')"></div>
+            <button class="login-btn" onclick="login()" style="width:100%">Login Now</button>
+            <p onclick="goHome()" style="margin-top:20px; cursor:pointer; color:#a3968e; font-size: 0.9rem;">ยกเลิกและกลับหน้าหลัก</p>
         </div>
     </div>
 
     <div class="center-container" id="imageContainer">
-        <div class="login-box" id="imageBox">
-            <h2 id="greetingText" style="color: #8e8279; margin-bottom: 22px;">Hi na hub you!! 🌸</h2>
-            <div class="image-container">
-                <img id="displayImage" src="" alt="Display">
-            </div>
-            <p id="footerText" style="margin-top: 25px; font-size: 1rem; color: #a3968e; line-height: 1.6;"></p>
+        <div class="login-box">
+            <h2 id="greetingText" style="color: #8e8279;">Hi you!! 🌸</h2>
+            <img id="displayImage" src="" alt="Result" style="width: 100%; border-radius: 25px; margin: 20px 0; max-height: 350px; object-fit: cover;">
+            <p id="footerText" style="color: #a3968e; line-height: 1.6;"></p>
+            <button class="visit-btn" style="margin-top:25px; width:100%;" onclick="goHome()">ออกจากการเยี่ยมชม</button>
         </div>
     </div>
 
-    <div id="bottomRightBox">
-        <b>Demo Account:</b><br>
-        User: korawit / Pass: 0301<br>
-        ลองใส่ดูด้ายน้าาา👆🏻
+    <div class="center-container" id="contactContainer">
+        <div class="login-box">
+            <h2 style="color: #8e8279; margin-bottom: 20px;">ฝากข้อความกันม้าา ✉️</h2>
+            <div class="input-box"><input type="text" id="senderName" placeholder="ชื่อของคุณหรือสมมุติได้น้าาา"></div>
+            <div class="input-box"><textarea id="senderMsg" placeholder="พิมพ์ข้อความตรงนี้ฮับบ..."></textarea></div>
+            <button class="login-btn" onclick="saveMessage()" style="width:100%">ส่งข้อความ</button>
+            <p onclick="goHome()" style="margin-top:15px; cursor:pointer; color:#a3968e;">ยกเลิก</p>
+        </div>
     </div>
 
-    <div id="errorBox" class="hidden">
-        <p style="margin-bottom: 25px; color: #8e8279; font-size: 1.1rem;">Username หรือ Password<br>ไม่ถูกต้องน้าา ใส่ใหม่ๆ</p>
-        <button onclick="closeError()" style="padding: 12px 30px; border-radius: 15px; border:none; background:#e8d5cc; color:#8e8279; font-weight:600; cursor:pointer;">ตกลง</button>
+    <div class="center-container" id="adminLoginContainer">
+        <div class="login-box">
+            <h2 style="color: #8e8279; margin-bottom: 25px;">Admin Login 🔐</h2>
+            <div class="input-box"><input type="text" id="adminUser" placeholder="Admin Name"></div>
+            <div class="input-box"><input type="password" id="adminPass" placeholder="Admin Password" onkeyup="handleEnter(event, 'admin')"></div>
+            <button class="login-btn" onclick="checkAdminLogin()" style="width:100%">เข้าสู่ระบบ</button>
+        </div>
+    </div>
+
+    <div class="center-container" id="adminDashboardContainer" style="max-width: 600px;">
+        <div class="login-box">
+            <h2 style="color: #8e8279; margin-bottom: 20px;">Guest Messages 💬</h2>
+            <div id="messageList" style="max-height: 350px; overflow-y: auto; text-align: left; padding: 10px;"></div>
+            <button class="login-btn" style="margin-top:20px; width:100%;" onclick="goHome()">ปิดหน้าต่าง</button>
+        </div>
     </div>
 
     <script>
-    const users = [
-        { username: 'korawit', password: '0301', image: 'https://i.postimg.cc/FHhLwWpG/how-You-20250914-233456-0000.png', greeting: 'Hi na hub you!! 🌸', footer: 'D hubb คนที่เข้ามาดู ✨' },
-        { username: 'kantamxs', password: '2606', image: 'https://i.postimg.cc/1tRJJw5X/20250915-031854-0000.png', greeting: 'Hi JuneNae~ Kantamxs! 🌸', footer: "Don't worry. Keep fighting. June nae! ✨" }
-    ];
+        const users = [
+            { username: 'korawit', password: '0301', image: 'https://i.postimg.cc/FHhLwWpG/how-You-20250914-233456-0000.png', greeting: 'Hi na hub you!! 🌸', footer: 'D hubb คนที่เข้ามาดู ✨' },
+            { username: 'kantamxs', password: '2606', image: 'https://i.postimg.cc/1tRJJw5X/20250915-031854-0000.png', greeting: 'Hi JuneNae~ Kantamxs! 🌸', footer: "Don't worry. Keep fighting. June nae! ✨" }
+        ];
 
-    function startVisit() {
-        const logo = document.getElementById('movingLogo');
-        const hero = document.getElementById('heroSection');
-        const loginContainer = document.getElementById('loginContainer');
-        const infoBox = document.getElementById('bottomRightBox');
-        hero.style.opacity = '0';
-        hero.style.transform = 'scale(0.97)';
-        logo.classList.remove('logo-home');
-        logo.classList.add('logo-mini');
-        setTimeout(() => {
-            hero.style.display = 'none';
-            loginContainer.style.display = 'flex';
-            infoBox.style.display = 'block';
-            setTimeout(() => { loginContainer.style.opacity = '1'; loginContainer.style.transform = 'translateY(0)'; }, 50);
-        }, 800);
-    }
+        function handleEnter(e, type) { if (e.key === "Enter") type === 'admin' ? checkAdminLogin() : login(); }
+        function toggleSidebar() { document.getElementById('adminSidebar').classList.toggle('active'); }
 
-    function login() {
-        const uInput = document.getElementById('username').value.trim();
-        const pInput = document.getElementById('password').value.trim();
-        const user = users.find(u => u.username.toLowerCase() === uInput.toLowerCase() && u.password === pInput);
-        if (user) {
-            const loginContainer = document.getElementById('loginContainer');
-            const imageContainer = document.getElementById('imageContainer');
-            loginContainer.style.opacity = "0";
-            loginContainer.style.transform = "scale(0.94)";
-            setTimeout(() => {
-                loginContainer.style.display = 'none';
-                document.getElementById('displayImage').src = user.image;
-                document.getElementById('greetingText').textContent = user.greeting;
-                document.getElementById('footerText').textContent = user.footer;
-                imageContainer.style.display = 'flex';
-                setTimeout(() => imageContainer.classList.add('show'), 50);
-                document.getElementById('bottomRightBox').style.display = 'none';
-            }, 600);
-        } else { document.getElementById('errorBox').classList.remove('hidden'); }
-    }
+        function closeAll() {
+            document.querySelectorAll('.center-container').forEach(c => { c.style.display = 'none'; c.style.opacity = '0'; });
+            const hero = document.getElementById('heroSection');
+            hero.style.display = 'none'; hero.style.opacity = '0';
+            document.getElementById('bottomRightBox').style.display = 'none'; // ซ่อนกล่องเดโมเมื่อปิดหน้าล็อคอิน
+        }
 
-    function closeError() { document.getElementById('errorBox').classList.add('hidden'); }
-
-    document.getElementById('movingLogo').addEventListener('click', function() {
-        if (!this.classList.contains('logo-mini')) return;
-        const loginContainer = document.getElementById('loginContainer');
-        const imageContainer = document.getElementById('imageContainer');
-        const hero = document.getElementById('heroSection');
-        const infoBox = document.getElementById('bottomRightBox');
-        loginContainer.style.opacity = '0';
-        imageContainer.classList.remove('show');
-        setTimeout(() => {
-            loginContainer.style.display = 'none';
-            imageContainer.style.display = 'none';
-            infoBox.style.display = 'none';
-            this.classList.remove('logo-mini');
-            this.classList.add('logo-home');
+        function goHome() {
+            closeAll();
+            document.getElementById('adminSidebar').classList.remove('active');
+            const logo = document.getElementById('movingLogo');
+            logo.className = 'main-logo logo-home';
+            const hero = document.getElementById('heroSection');
             hero.style.display = 'flex';
-            setTimeout(() => { hero.style.opacity = '1'; hero.style.transform = 'scale(1)'; }, 50);
-        }, 700);
-    });
+            setTimeout(() => hero.style.opacity = '1', 50);
+            document.getElementById('menuIcon').style.display = 'none';
+        }
 
-    document.querySelectorAll('input').forEach(input => {
-        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
-    });
+        function startVisit() {
+            closeAll();
+            const box = document.getElementById('loginContainer');
+            box.style.display = 'flex';
+            document.getElementById('bottomRightBox').style.display = 'block'; // แสดงกล่องเดโมเฉพาะหน้านี้
+            document.getElementById('menuIcon').style.display = 'flex';
+            document.getElementById('movingLogo').className = 'main-logo logo-mini';
+            setTimeout(() => box.style.opacity = '1', 50);
+        }
+
+        function login() {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            const user = users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
+
+            if (user) {
+                const sPopup = document.getElementById('successPopup');
+                sPopup.classList.add('show');
+                burstConfetti();
+                setTimeout(() => {
+                    sPopup.classList.remove('show');
+                    closeAll();
+                    document.getElementById('displayImage').src = user.image;
+                    document.getElementById('greetingText').textContent = user.greeting;
+                    document.getElementById('footerText').textContent = user.footer;
+                    const res = document.getElementById('imageContainer');
+                    res.style.display = 'flex';
+                    setTimeout(() => res.style.opacity = '1', 50);
+                }, 1200);
+            } else {
+                const ePopup = document.getElementById('errorPopup');
+                ePopup.classList.add('show', 'shake');
+                setTimeout(() => ePopup.classList.remove('show', 'shake'), 2000);
+            }
+        }
+
+        function showContactForm() {
+            closeAll();
+            const box = document.getElementById('contactContainer');
+            box.style.display = 'flex';
+            document.getElementById('menuIcon').style.display = 'flex';
+            document.getElementById('movingLogo').className = 'main-logo logo-mini';
+            setTimeout(() => box.style.opacity = '1', 50);
+        }
+
+        function showAdminLogin() {
+            toggleSidebar(); closeAll();
+            const box = document.getElementById('adminLoginContainer');
+            box.style.display = 'flex';
+            document.getElementById('menuIcon').style.display = 'flex';
+            document.getElementById('movingLogo').className = 'main-logo logo-mini';
+            setTimeout(() => box.style.opacity = '1', 50);
+        }
+
+        function saveMessage() {
+            const name = document.getElementById('senderName').value || "Anonymous";
+            const msg = document.getElementById('senderMsg').value;
+            if(!msg) return;
+
+            const msgs = JSON.parse(localStorage.getItem('guestMessages') || '[]');
+            msgs.push({ name, msg, date: new Date().toLocaleString() });
+            localStorage.setItem('guestMessages', JSON.stringify(msgs));
+
+            burstConfetti();
+            const popup = document.getElementById('successPopup');
+            const original = popup.innerHTML;
+            popup.innerHTML = `<div style="font-size: 50px;">✉️</div><h2 style="color: #8e8279;">Sent!</h2><p>ขอบคุณสำหรับข้อความนะฮับ</p>`;
+            popup.classList.add('show');
+
+            setTimeout(() => {
+                popup.classList.remove('show');
+                goHome();
+                setTimeout(() => popup.innerHTML = original, 500);
+            }, 1500);
+        }
+
+        function checkAdminLogin() {
+            const u = document.getElementById('adminUser').value;
+            const p = document.getElementById('adminPass').value;
+            if(u === "Korawit" && p === "090771") {
+                showAdminDashboard();
+            } else {
+                const e = document.getElementById('errorPopup');
+                e.classList.add('show', 'shake');
+                setTimeout(() => e.classList.remove('show', 'shake'), 2000);
+            }
+        }
+
+        function showAdminDashboard() {
+            closeAll();
+            const list = document.getElementById('messageList');
+            const msgs = JSON.parse(localStorage.getItem('guestMessages') || '[]');
+            list.innerHTML = msgs.length ? "" : "<p style='text-align:center; padding:20px;'>ไม่มีข้อความใหม่...</p>";
+            msgs.reverse().forEach((m, i) => {
+                list.innerHTML += `
+                    <div style="background:#fffafa; padding:15px; border-radius:15px; margin-bottom:10px; border-left:4px solid #ffb6c1; position:relative;">
+                        <button onclick="deleteMsg(${msgs.length-1-i})" style="position:absolute; top:10px; right:10px; border:none; background:none; cursor:pointer; color:#ff6b6b;">✕</button>
+                        <strong>${m.name}</strong> <small style="color:#ccc;">${m.date}</small>
+                        <p style="margin-top:5px; color:#8e8279;">${m.msg}</p>
+                    </div>`;
+            });
+            const box = document.getElementById('adminDashboardContainer');
+            box.style.display = 'flex';
+            setTimeout(() => box.style.opacity = '1', 50);
+        }
+
+        function deleteMsg(i) {
+            let msgs = JSON.parse(localStorage.getItem('guestMessages') || '[]');
+            msgs.splice(i, 1);
+            localStorage.setItem('guestMessages', JSON.stringify(msgs));
+            showAdminDashboard();
+        }
+
+        function burstConfetti() {
+            for (let i = 0; i < 30; i++) {
+                const c = document.createElement('div');
+                c.style.position = 'fixed'; c.style.width = '10px'; c.style.height = '10px';
+                c.style.backgroundColor = ['#ffb6c1','#ffd1dc','#e8d5cc'][Math.floor(Math.random()*3)];
+                c.style.borderRadius = '50%'; c.style.zIndex = '10000';
+                c.style.left = '50%'; c.style.top = '50%';
+                document.body.appendChild(c);
+                const a = Math.random() * Math.PI * 2;
+                const d = 50 + Math.random() * 150;
+                c.animate([
+                    { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${Math.cos(a)*d}px), calc(-50% + ${Math.sin(a)*d}px)) scale(0)`, opacity: 0 }
+                ], { duration: 1000, easing: 'ease-out' }).onfinish = () => c.remove();
+            }
+        }
+
+        function createFloater() {
+            const container = document.getElementById('floating-container');
+            const el = document.createElement('div');
+            el.className = 'floater';
+            el.innerHTML = ['❤', '🌸', '✨', '💗', '☁️'][Math.floor(Math.random()*5)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 10000);
+        }
+        setInterval(createFloater, 600);
     </script>
 </body>
 </html>
